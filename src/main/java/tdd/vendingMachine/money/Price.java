@@ -21,10 +21,6 @@ public class Price implements Comparable<Price> {
         return new Price(this.value.subtract(price.value));
     }
 
-    public boolean isLessThan(Price price) {
-        return this.compareTo(price) < 0;
-    }
-
     public boolean isEqual(Price price) {
         return this.compareTo(price) == 0;
     }

@@ -72,7 +72,7 @@ public class VendingMachineTest {
     public void testTakingProductsTwiceReturnsNull() {
         buyWater();
 
-        assertThat(vendingMachine.takeProduct().getType()).isEqualTo(ProductType.WATER_033);
+        assertThat(vendingMachine.takeProduct()).isNotNull();
         assertThat(vendingMachine.takeProduct()).isNull();
     }
 
@@ -164,6 +164,50 @@ public class VendingMachineTest {
 
         assertThat(vendingMachine.takeProduct()).isNotNull();
         assertThat(vendingMachine.takeProduct()).isNotNull();
+    }
+
+    @Test
+    public void testInitialDisplayMessageAfterCancel() {
+        vendingMachine.choose(SHELF_ONE);
+        vendingMachine.cancel();
+
+        assertThat(vendingMachine.getDisplayMessage()).isEqualTo(SimpleDisplay.INITIAL_MESSAGE);
+    }
+
+    @Test
+    public void testChoosingAnotherProductWithoutCancelNotWork() {
+        vendingMachine.choose(SHELF_ONE);
+        vendingMachine.choose(SHELF_TWO);
+
+        assertThat(vendingMachine.getDisplayMessage()).isEqualTo("Insert 1.5 zl");
+    }
+
+    @Test
+    public void testChoosingAnotherProductWorksAfterCancel() {
+        vendingMachine.choose(SHELF_ONE);
+        vendingMachine.cancel();
+        vendingMachine.choose(SHELF_TWO);
+
+        assertThat(vendingMachine.getDisplayMessage()).isEqualTo("Insert 3.2 zl");
+    }
+
+    @Test
+    public void testReturningInsertedCoinsAfterCancel() {
+        vendingMachine.choose(SHELF_ONE);
+
+        vendingMachine.insert(Coin.ONE_ZL);
+
+        vendingMachine.cancel();
+
+        assertThat(vendingMachine.getReturnedCoins()).containsOnly(Coin.ONE_ZL);
+        assertThat(vendingMachine.takeProduct()).isNull();
+    }
+
+    @Test
+    public void testDisplayingMessageForIncorrectShelfNumber() {
+        vendingMachine.choose(10);
+
+        assertThat(vendingMachine.getDisplayMessage()).isEqualTo("Product doesn't exist");
     }
 
     private void buyWater() {

@@ -1,7 +1,10 @@
 package tdd.vendingMachine;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tdd.vendingMachine.display.SimpleDisplay;
 import tdd.vendingMachine.exceptions.NotEnoughChangeException;
+import tdd.vendingMachine.exceptions.WrongShelfNumberException;
 import tdd.vendingMachine.money.Coin;
 import tdd.vendingMachine.money.Price;
 import tdd.vendingMachine.storage.Product;
@@ -11,6 +14,8 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 public class VendingMachine {
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(VendingMachine.class);
 
     private final SimpleDisplay display;
     private final Storage storage;
@@ -30,7 +35,16 @@ public class VendingMachine {
     }
 
     public void choose(int shelfNumber) {
-        this.remainingPrice = storage.getPriceForShelf(shelfNumber);
+        if (this.currentShelf >= 1) {
+            return;
+        }
+        try {
+            this.remainingPrice = storage.getPriceForShelf(shelfNumber);
+        } catch (WrongShelfNumberException e) {
+            LOGGER.debug("Wrong shelf number {}", shelfNumber, e);
+            display.changeMessage("Product doesn't exist");
+            return;
+        }
         this.currentShelf = shelfNumber;
         this.currentCoins = new LinkedList<>();
         displayInsertMessage();
@@ -47,6 +61,7 @@ public class VendingMachine {
 
         remainingPrice = remainingPrice.subtract(coin.getPrice());
         addCurrentCoin(coin);
+
         if (remainingPrice.compareTo(Price.of(0.0)) > 0) {
             displayInsertMessage();
             return;
@@ -64,9 +79,12 @@ public class VendingMachine {
 
         Product currentProduct = storage.takeProductFromShelf(currentShelf);
         returnedProducts.add(currentProduct);
-        display.changeMessage(SimpleDisplay.INITIAL_MESSAGE);
-        this.currentCoins.clear();
-        this.currentShelf = -1;
+        resetState();
+    }
+
+    public void cancel() {
+        change.addAll(currentCoins);
+        resetState();
     }
 
     public Product takeProduct() {
@@ -96,6 +114,12 @@ public class VendingMachine {
 
     private void addCurrentCoin(Coin coin) {
         currentCoins.add(coin);
+    }
+
+    private void resetState() {
+        display.changeMessage(SimpleDisplay.INITIAL_MESSAGE);
+        this.currentCoins.clear();
+        this.currentShelf = -1;
     }
 
     private void displayInsertMessage() {
