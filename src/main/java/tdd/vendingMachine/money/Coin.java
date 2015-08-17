@@ -16,4 +16,8 @@ public enum Coin {
     Coin(Price price) {
         this.price = price;
     }
+
+    public Price getPrice() {
+        return price;
+    }
 }
