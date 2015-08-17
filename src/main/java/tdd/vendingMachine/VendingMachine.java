@@ -1,10 +1,16 @@
 package tdd.vendingMachine;
 
+import tdd.vendingMachine.display.SimpleDisplay;
+
 public class VendingMachine {
 
-    public static final String INITIAL_DISPLAY_TEXT = "Select Product";
+    private final SimpleDisplay display;
 
-    public String getDisplayText() {
-        return INITIAL_DISPLAY_TEXT;
+    public VendingMachine(SimpleDisplay display) {
+        this.display = display;
+    }
+
+    public String getDisplayMessage() {
+        return display.getCurrentMessage();
     }
 }

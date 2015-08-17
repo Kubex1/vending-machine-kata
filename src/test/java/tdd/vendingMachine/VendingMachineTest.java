@@ -2,6 +2,7 @@ package tdd.vendingMachine;
 
 import org.junit.Before;
 import org.junit.Test;
+import tdd.vendingMachine.display.SimpleDisplay;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -11,13 +12,14 @@ public class VendingMachineTest {
 
     @Before
     public void setUp() throws Exception {
-        vendingMachine = new VendingMachine();
+        SimpleDisplay display = new SimpleDisplay();
+        vendingMachine = new VendingMachine(display);
     }
 
     @Test
     public void testMachineDisplaysInitialDisplayText() throws Exception {
-        String initialDisplayText = vendingMachine.getDisplayText();
+        String initialDisplayMessage = vendingMachine.getDisplayMessage();
 
-        assertThat(initialDisplayText).isEqualTo(VendingMachine.INITIAL_DISPLAY_TEXT);
+        assertThat(initialDisplayMessage).isEqualTo(SimpleDisplay.INITIAL_MESSAGE);
     }
 }
