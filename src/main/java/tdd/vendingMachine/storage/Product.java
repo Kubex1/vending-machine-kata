@@ -10,8 +10,6 @@ public class Product {
         this.type = type;
     }
 
-
-
     public ProductType getType() {
         return type;
     }

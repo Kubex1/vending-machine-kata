@@ -24,7 +24,7 @@ public class ShelfTest {
 
         ProductType shelfType = shelf.getType();
         assertThat(shelfType).isEqualTo(ProductType.WATER_033);
-        assertThat(shelf.getSize()).isEqualTo(1);
+        assertThat(shelf.productsOnShelf()).isEqualTo(1);
     }
 
     @Test
@@ -32,7 +32,7 @@ public class ShelfTest {
         shelf.add(ProductType.WATER_033, 3);
 
         assertThat(shelf.getType()).isEqualTo(ProductType.WATER_033);
-        assertThat(shelf.getSize()).isEqualTo(3);
+        assertThat(shelf.productsOnShelf()).isEqualTo(3);
     }
 
     @Test
@@ -40,7 +40,7 @@ public class ShelfTest {
         shelf.add(ProductType.WATER_033);
 
         Product product = shelf.take();
-        assertThat(shelf.getSize()).isEqualTo(0);
+        assertThat(shelf.productsOnShelf()).isEqualTo(0);
         assertThat(product.getType()).isEqualTo(ProductType.WATER_033);
     }
 
@@ -49,7 +49,7 @@ public class ShelfTest {
         shelf.add(ProductType.WATER_033, 3);
 
         shelf.take();
-        assertThat(shelf.getSize()).isEqualTo(2);
+        assertThat(shelf.productsOnShelf()).isEqualTo(2);
     }
 
     @Test(expected = EmptyShelfException.class)
@@ -66,5 +66,17 @@ public class ShelfTest {
     public void testAddingAnotherTypeOfProductGeneratesException() {
         shelf.add(ProductType.WATER_033);
         shelf.add(ProductType.CHOCOLATE_BAR);
+    }
+
+    @Test
+    public void testGettingPrice() {
+        shelf.add(ProductType.WATER_033);
+
+        assertThat(shelf.getPrice()).isEqualTo(ProductType.WATER_033.getPrice());
+    }
+
+    @Test(expected = EmptyShelfException.class)
+    public void testGettingPriceForEmptyShelf() {
+        shelf.getPrice();
     }
 }

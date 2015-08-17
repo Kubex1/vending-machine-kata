@@ -3,6 +3,7 @@ package tdd.vendingMachine.storage;
 import tdd.vendingMachine.exceptions.AddIncorrectProductTypeException;
 import tdd.vendingMachine.exceptions.EmptyShelfException;
 
+import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -18,33 +19,43 @@ public class Shelf {
         this.products = new LinkedList<>();
     }
 
-    public void add(ProductType type) {
-        this.add(type, 1);
+    public Shelf add(ProductType type) {
+        return this.add(type, 1);
     }
 
-    public void add(ProductType type, int amount) {
-        if (this.getSize() != 0 && !this.getType().equals(type)) {
+    public Shelf add(ProductType type, int amount) {
+        if (typesNotMatch(type)) {
             throw new AddIncorrectProductTypeException(this.getType(), type);
         }
         IntStream.range(0, amount).mapToObj(i -> new Product(type)).forEach(this.products::add);
+        return this;
     }
 
     public ProductType getType() {
-        checkShelfHasProducts();
+        checkIfShelfHasProducts();
         return this.products.get(0).getType();
     }
 
-    public int getSize() {
+    public int productsOnShelf() {
         return this.products.size();
     }
 
     public Product take() {
-        checkShelfHasProducts();
+        checkIfShelfHasProducts();
         return this.products.remove(0);
     }
 
-    private void checkShelfHasProducts() {
-        if (this.getSize() == 0) {
+    public BigDecimal getPrice() {
+        checkIfShelfHasProducts();
+        return this.getType().getPrice();
+    }
+
+    private boolean typesNotMatch(ProductType type) {
+        return this.productsOnShelf() != 0 && !this.getType().equals(type);
+    }
+
+    private void checkIfShelfHasProducts() {
+        if (this.productsOnShelf() == 0) {
             throw new EmptyShelfException();
         }
     }
