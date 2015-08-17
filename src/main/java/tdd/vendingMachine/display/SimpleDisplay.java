@@ -4,7 +4,7 @@ package tdd.vendingMachine.display;
  * Created by Jakub Janczyk on 2015-08-17.
  */
 public class SimpleDisplay implements Display {
-    public static final String INITIAL_MESSAGE = "Select Product";
+    public static final String INITIAL_MESSAGE = "Select product";
     private String message;
 
     public SimpleDisplay() {

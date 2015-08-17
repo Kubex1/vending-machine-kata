@@ -2,6 +2,7 @@ package tdd.vendingMachine.storage;
 
 import tdd.vendingMachine.exceptions.AddIncorrectProductTypeException;
 import tdd.vendingMachine.exceptions.EmptyShelfException;
+import tdd.vendingMachine.money.Price;
 
 import java.math.BigDecimal;
 import java.util.LinkedList;
@@ -45,7 +46,7 @@ public class Shelf {
         return this.products.remove(0);
     }
 
-    public BigDecimal getPrice() {
+    public Price getPrice() {
         checkIfShelfHasProducts();
         return this.getType().getPrice();
     }

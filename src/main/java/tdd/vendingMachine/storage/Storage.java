@@ -1,6 +1,7 @@
 package tdd.vendingMachine.storage;
 
 import tdd.vendingMachine.exceptions.WrongShelfNumberException;
+import tdd.vendingMachine.money.Price;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -28,7 +29,7 @@ public class Storage {
         return this;
     }
 
-    public BigDecimal getPriceForShelf(int shelfNumber) {
+    public Price getPriceForShelf(int shelfNumber) {
         Shelf shelf = getShelf(shelfNumber);
         return shelf.getPrice();
     }

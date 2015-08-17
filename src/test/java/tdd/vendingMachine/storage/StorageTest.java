@@ -2,8 +2,7 @@ package tdd.vendingMachine.storage;
 
 import org.junit.Test;
 import tdd.vendingMachine.exceptions.WrongShelfNumberException;
-
-import java.math.BigDecimal;
+import tdd.vendingMachine.money.Price;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -57,7 +56,7 @@ public class StorageTest {
     public void testGettingProductPriceForShelf() {
         initializeWithSingleShelf();
 
-        BigDecimal price = storage.getPriceForShelf(SHELF_ONE);
+        Price price = storage.getPriceForShelf(SHELF_ONE);
 
         assertThat(price).isEqualTo(ProductType.WATER_033.getPrice());
     }
