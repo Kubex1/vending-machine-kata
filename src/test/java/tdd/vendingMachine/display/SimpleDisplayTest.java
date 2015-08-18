@@ -1,8 +1,7 @@
-package tdd.vendingMachine;
+package tdd.vendingMachine.display;
 
 import org.junit.Before;
 import org.junit.Test;
-import tdd.vendingMachine.display.SimpleDisplay;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -23,9 +22,9 @@ public class SimpleDisplayTest {
     }
 
     @Test
-    public void testChangingDisplayMessage() {
+    public void testSettingDisplayMessage() {
         String newMessage = "Test Message";
-        display.changeMessage(newMessage);
+        display.setInitialMessage(newMessage);
 
         assertThat(display.getCurrentMessage()).isEqualTo(newMessage);
     }

@@ -4,7 +4,6 @@ import tdd.vendingMachine.exceptions.AddIncorrectProductTypeException;
 import tdd.vendingMachine.exceptions.EmptyShelfException;
 import tdd.vendingMachine.money.Price;
 
-import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.IntStream;

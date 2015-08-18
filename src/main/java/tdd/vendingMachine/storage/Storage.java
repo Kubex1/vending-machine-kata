@@ -3,7 +3,6 @@ package tdd.vendingMachine.storage;
 import tdd.vendingMachine.exceptions.WrongShelfNumberException;
 import tdd.vendingMachine.money.Price;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
